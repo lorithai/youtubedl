@@ -16,6 +16,9 @@ import tkinter as tk
 BASE_PATH = os.path.dirname(__file__)
 SAVE_FOLDER = "data"
 SAVE_PATH = os.path.join(BASE_PATH,SAVE_FOLDER)
+if not os.path.exists(os.path.join(BASE_PATH,SAVE_FOLDER)):
+    os.mkdir(os.path.join(BASE_PATH,SAVE_FOLDER))
+
 ALREADY_DOWNLOADED = set(os.listdir(SAVE_PATH))
 
 def load_local_library():
@@ -71,8 +74,7 @@ def tk_download_audio():
 
 
 LOCAL_LIBRARY = load_local_library()
-if not os.path.exists(os.path.join(BASE_PATH,SAVE_FOLDER)):
-    os.mkdir(os.path.join(BASE_PATH,SAVE_FOLDER))
+
 
 # playlist_link = "https://www.youtube.com/playlist?list=PLnCX3UVVIsLegTE-J3eJnjBuQ5Zu_e1nX"
 # yt_playlist = Playlist(playlist_link)
