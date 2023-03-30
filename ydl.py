@@ -68,6 +68,7 @@ def tk_download_audio():
     try:
         dl_name = download_audio(entry_link)
         message_var.set("downloaded {}".format(dl_name))
+        print("Finished")
     except Exception as e:
         message_var.set("didn't work {}".format(e))
     button["state"] = "normal"
