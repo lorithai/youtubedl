@@ -1,1 +1,6 @@
+data/
+audio_data/
+video_data/
+local_library.json
 *.mp4
+dumbjuice_build
