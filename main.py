@@ -36,9 +36,10 @@ def download_audio(url, output_folder="audio_data", audio_format="mp3"):
 
 def download_video(url, output_folder="video_data",video_format="mp4"):
     output_path = os.path.join(output_folder,"%(title)s.%(ext)s")
+    # "format": "bv*[height<=1080]+ba[ext=m4a]/b[ext=mp4]",
     ydl_opts = {
         "video_format":video_format,
-        "format": "bv*[height<=1080]+ba[ext=m4a]/b[ext=mp4]",
+        "format": "bv*[height<=1080]+ba[ext=m4a]/b[ext=mp4]/best",
         "outtmpl": output_path,
         "merge_output_format":video_format,
         "progress_hooks": [hook]
@@ -68,7 +69,7 @@ def open_file_explorer(path=None):
     if os.path.exists(path):
         if os.name == "nt":  # Windows
             os.startfile(path)
-        elif os.name == "posix":  # Linux, macOS
+        elif os.name == "posix":  # Linux, macOS. Don't support this yet, but maybe, someday
             subprocess.run(["xdg-open", path])
     else:
         print(f"The path '{path}' does not exist.")
@@ -89,7 +90,7 @@ def tk_download_audio():
         output_path = download_audio(entry_link)
         dl_path = os.path.join(BASE_PATH,output_path) 
         message_var.set(dl_path)
-        filename_var.set(os.path.split(downloaded_file[0])[-1])
+        filename_var.set(os.path.split(downloaded_file[0])[-1].split(".")[:-1])
         print("Finished")
     except Exception as e:
         message_var.set("didn't work {}".format(e))
@@ -106,7 +107,7 @@ def tk_download_video():
         output_path = download_video(entry_link)
         dl_path = os.path.join(BASE_PATH,output_path) 
         message_var.set(dl_path)
-        filename_var.set(os.path.split(downloaded_file[0])[-1])
+        filename_var.set(os.path.split(downloaded_file[0])[-1].split(".")[:-1])
         print("Finished")
     except Exception as e:
         message_var.set("didn't work {}".format(e))
