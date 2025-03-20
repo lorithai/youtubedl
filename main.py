@@ -7,7 +7,6 @@ import yt_dlp
 import os
 import time
 import tkinter as tk
-
 downloaded_file = [""]
 def hook(d):
     if d["status"] == "finished":
@@ -18,8 +17,16 @@ def download_audio(url, output_folder="audio_data", audio_format="mp3"):
     ydl_opts = {
         "format": "bestaudio",
         "extract_audio": True,
-        "audio_format": audio_format,
+        "merge_output_format":audio_format,
         "outtmpl": output_path,
+        "keepvideo":True,
+        "postprocessors": [
+        {
+        "key": "FFmpegExtractAudio",  # Postprocessor to extract audio
+        "preferredcodec": audio_format,  # Convert to desired format (e.g., mp3)
+        "preferredquality": "192",  # Optionally set the audio bitrate
+        }
+        ],
         "progress_hooks": [hook]
     }
     
@@ -30,7 +37,10 @@ def download_audio(url, output_folder="audio_data", audio_format="mp3"):
 def download_video(url, output_folder="video_data",video_format="mp4"):
     output_path = os.path.join(output_folder,"%(title)s.%(ext)s")
     ydl_opts = {
+        "video_format":video_format,
+        "format": "bv*[height<=1080]+ba[ext=m4a]/b[ext=mp4]",
         "outtmpl": output_path,
+        "merge_output_format":video_format,
         "progress_hooks": [hook]
     }
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
